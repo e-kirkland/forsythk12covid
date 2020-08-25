@@ -11,8 +11,8 @@ def get_main_indicator(daily_totals):
         mode="number+delta",
         value=int(daily_totals.sum()),
         title={
-            "text": f"Total Cases<br>({daily_totals.index[-1]})<br><span style='font-size:0.6em;color:gray'>Daily change</span>"},
-        delta={'reference': int(daily_totals[:-1].sum()), 'relative': True, 'position': "bottom"},
+            "text": f"Total Cases<br>({daily_totals.index[-1]})<br><span style='font-size:0.6em;color:gray'>Change since last week</span>"},
+        delta={'reference': int(daily_totals[:-5].sum()), 'relative': True, 'position': "bottom"},
     ))
     fig_total.update_layout(autosize=True
                             )
@@ -28,8 +28,8 @@ def get_daily_indicator(daily_totals):
         mode="number+delta",
         value=int(daily_totals[-1]),
         title={
-            "text": f"Daily Cases<br>({daily_totals.index[-1]})<br><span style='font-size:0.6em;color:gray'>Daily change</span>"},
-        delta={'reference': int(daily_totals[-2]), 'relative': True, 'position': "bottom"}))
+            "text": f"Daily Cases<br>({daily_totals.index[-1]})<br><span style='font-size:0.6em;color:gray'>Change since last week</span>"},
+        delta={'reference': int(daily_totals[-6]), 'relative': True, 'position': "bottom"}))
 
     fig_daily.update_layout(autosize=True
                             )

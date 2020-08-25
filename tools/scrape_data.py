@@ -65,7 +65,6 @@ def info_dataframe(info):
 
     # Reading into dataframe
     df = pd.DataFrame(info_json, columns=headers)
-    print(df.head())
 
     return df
 
@@ -99,7 +98,6 @@ def clean_df(df):
     cols = df.columns.tolist()
     cols = cols[-2:] + cols[:-2]
     df = df[cols]
-    print(df.head())
 
     return df
 
@@ -121,8 +119,6 @@ def get_weekly_dataframes(master_url):
 
 def merge_dataframes(df_list):
     df_final = reduce(lambda x, y: pd.merge(x, y, on=['school', 'type']), df_list)
-    print(df_final.head())
-    print(df_final.shape)
 
     return df_final
 
@@ -152,7 +148,6 @@ def get_covid_data(url):
     # Dropping TOTAL row
     df_final = df_final[df_final['school'] != 'TOTAL']
 
-    print(df_final.head())
     return df_final
 
 def data_download():

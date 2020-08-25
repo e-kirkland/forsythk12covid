@@ -70,8 +70,9 @@ def geo_data(df_final):
 
     # Getting cumulative totals for chart
     columns = df_final.columns
-    daily_columns = columns[4:-3]
-    info_columns = columns[1:4]
+    print("DF FINAL", columns)
+    daily_columns = columns[3:-3]
+    info_columns = columns[0:3]
     current = daily_columns[-1]
 
     # Saving current state as first slide, so chart begins with most recent date
@@ -85,6 +86,7 @@ def geo_data(df_final):
                              right=df_final[daily_columns].cumsum(axis=1),
                              left_index=True,
                              right_index=True)
+    print("DF CUMULATIVE", df_cumulative.columns)
 
 
     # Melting dataframe for timeseries data
@@ -114,6 +116,8 @@ def geo_data(df_final):
     df_locations.drop(columns='Total Staff & Student',
                         inplace=True)
 
+    print("DF MELTED: ", df_melted.columns)
+    print("DF LOCATIONS: ", df_locations.columns)
 
     # Merging geo and sum data
     df_geo = pd.merge(left=df_melted,

@@ -12,10 +12,13 @@ import plotly_tools as pt
 # ------------------------------------------------------------------------------
 # OBTAIN DATASET
 # Read data
-sd.data_download()
+df = sd.data_download()
 
-# Import and clean data (importing csv into pandas)
-df = pd.read_csv("data/forsythk12_covid_data.csv")
+# # Import and clean data (importing csv into pandas)
+# df = pd.read_csv("data/forsythk12_covid_data.csv")
+print(df.tail())
+print(df.columns)
+print(df['8/25/20'])
 
 # ------------------------------------------------------------------------------
 # BUILD INDICATORS

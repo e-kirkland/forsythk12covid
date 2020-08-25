@@ -1,5 +1,10 @@
-import pandas as pd
+# Standard Imports
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
+# Third-party Import
+import pandas as pd
 
 def get_daily_positives(df):
     # Get daily positives for cases indicator
@@ -8,7 +13,6 @@ def get_daily_positives(df):
 
     # Getting only numeric columns for sum
     columns = df.columns
-    print("DAILY COLUMNS: ", columns)
     daily_columns = columns[4:-2]
 
     daily_results = df[daily_columns]
@@ -75,7 +79,6 @@ def geo_data(df_final):
     # Cumulative sums for final day
     df_cumulative = df_final[daily_columns].cumsum(axis=1)
     df_info['Current'] = df_cumulative[current]
-    print("CURRENT: ", df_info['Current'])
 
     # Merging all historical dates behind in chronological order
     df_cumulative = pd.merge(left=df_info,
@@ -95,7 +98,7 @@ def geo_data(df_final):
 
 
     # Reading in school geo data
-    df_locations = pd.read_csv('school_locations.csv')
+    df_locations = pd.read_csv('data/school_locations.csv')
 
     # Merging school geo data
     df_locations.drop(columns=df_locations.columns[0], inplace=True)

@@ -1,16 +1,12 @@
 # Third-party library imports
 import pandas as pd
-import plotly.express as px  # (version 4.7.0)
-import plotly.graph_objects as go
 
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
 
 # Local imports
-import transform as tf
-import scrape_data as sd
+from tools import scrape_data as sd, transform as tf
 import plotly_tools as pt
 
 # ------------------------------------------------------------------------------
@@ -19,14 +15,12 @@ import plotly_tools as pt
 sd.data_download()
 
 # Import and clean data (importing csv into pandas)
-df = pd.read_csv("forsythk12_covid_data.csv")
-print(df.head())
+df = pd.read_csv("data/forsythk12_covid_data.csv")
 
 # ------------------------------------------------------------------------------
 # BUILD INDICATORS
 # Daily positives for indicators
 daily_totals = tf.get_daily_positives(df)
-print(daily_totals)
 
 # Main indicator
 fig_total = pt.get_main_indicator(daily_totals)

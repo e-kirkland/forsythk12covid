@@ -72,33 +72,60 @@ plotly_figure = dict(data=[dict(x=[1,2,3], y=[2,4,8])])
 
 app.layout = html.Div([
     html.Div([
+            html.Div([
+                html.H1(children='COVID-19 Dashboard - Forsyth Co. Public Schools',
+                        className = "nine columns"),
+                ]),
+            html.Div([
+                dcc.Markdown('''Data: [Forsyth County Schools - Restart](https://www.forsyth.k12.ga.us/Page/52982) 
+                                Dashboard Source Code: [GitHub](https://github.com/e-kirkland/forsythk12covid)''',
+                        className = "three columns"),
+                ]),
+        ], className="row"),
+    html.Div([
         html.Div([
-            dcc.Graph(id='g1', figure=fig_total)
+            dcc.Graph(style={'height': '350px'},id='g1', figure=fig_total,
+                      config={
+                          'displayModeBar': False
+                      }
+                      )
         ], className="three columns"),
         html.Div([
-
+            dcc.Graph(style={'height': '350px'},id='g2', figure=fig_daily,
+                      config={
+                          'displayModeBar': False
+                      }
+                      )
         ], className="three columns"),
         html.Div([
-            dcc.Graph(id='g2', figure=fig_daily)
-        ], className="three columns"),
+            dcc.Graph(style={'height': '350px'}, id='g4', figure=fig_line,
+                      config={
+                          'displayModeBar': False
+                      }
+                      )
+        ], className="six columns"),
     ], className="row"),
     html.Div([
         html.Div([
-            dcc.Graph(id='g4', figure=fig_line)
-        ], className="one column"),
-    ], className="row"),
-    html.Div([
-        html.Div([
-            dcc.Graph(id='g5', figure=fig_bar)
-        ], className="one column"),
-    ], className="row"),
+            dcc.Graph(style={'height': '600px'}, id='g5', figure=fig_map,
+                      config={
+                          'displayModeBar': False
+                      }
+                      )
+        ], className="six columns"),
         html.Div([
             html.Div([
-                dcc.Graph(id='g6', figure=fig_map)
-            ], className="one column"),
+                dcc.Graph(style={'height': '600px'}, id='g6', figure=fig_bar,
+                          config={
+                              'displayModeBar': False
+                          }
+                          )
+            ], className="six columns"),
+        ])
+    ], className="row")
 ])
 
-])
+
 # ------------------------------------------------------------------------------
 # # Connect the Plotly graphs with Dash Components
 # @app.callback(

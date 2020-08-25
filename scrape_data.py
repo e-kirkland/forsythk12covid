@@ -160,10 +160,10 @@ def data_download():
     df_final.to_csv('forsythk12_covid_data.csv')
     return df_final
 
-if __name__=="__main__":
-    df_final = get_covid_data("https://www.forsyth.k12.ga.us/Page/52982")
-    df_final.to_csv('forsythk12_covid_data.csv')
-    total_positive = df_final['total_positive'].sum()
-    print(f"Total Positive Cases as of {today_date}: ", total_positive)
-    print(df_final.head())
-    print(df_final.columns)
+# if __name__=="__main__":
+#     df_final = get_covid_data("https://www.forsyth.k12.ga.us/Page/52982")
+#     df_final.to_csv('forsythk12_covid_data.csv')
+#     total_positive = df_final['total_positive'].sum()
+#     print(f"Total Positive Cases as of {today_date}: ", total_positive)
+#     print(df_final.head())
+#     print(df_final.columns)

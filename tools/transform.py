@@ -13,7 +13,7 @@ def get_daily_positives(df):
 
     # Getting only numeric columns for sum
     columns = df.columns
-    daily_columns = columns[4:-2]
+    daily_columns = columns[3:-2]
 
     daily_results = df[daily_columns]
 
@@ -45,7 +45,7 @@ def aggregated_totals(df_final):
 
     # Getting numeric columns for tally
     columns = df_final.columns
-    daily_columns = columns[4:-2]
+    daily_columns = columns[3:-2]
 
     df_sums = df_final[daily_columns].sum()
     df_aggregated = df_sums.cumsum()

@@ -54,7 +54,7 @@ def top_schools(df_final):
     school_groups = df_final.groupby('school_fullname')
     school_sums = school_groups['total_positive'].sum()
     school_sums = school_sums.sort_values(ascending=False)
-    top_schools = school_sums[:10].sort_values(ascending=True)
+    top_schools = school_sums[:15].sort_values(ascending=True)
 
     return top_schools
 

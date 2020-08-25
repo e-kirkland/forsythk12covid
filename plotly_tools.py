@@ -14,9 +14,7 @@ def get_main_indicator(daily_totals):
             "text": f"Total Cases<br>({daily_totals.index[-1]})<br><span style='font-size:0.6em;color:gray'>Daily change</span>"},
         delta={'reference': int(daily_totals[:-1].sum()), 'relative': True, 'position': "bottom"},
     ))
-    fig_total.update_layout(autosize=True,
-                            #  height=400,
-                            # width=400,
+    fig_total.update_layout(autosize=True
                             )
 
     return fig_total
@@ -33,9 +31,7 @@ def get_daily_indicator(daily_totals):
             "text": f"Daily Cases<br>({daily_totals.index[-1]})<br><span style='font-size:0.6em;color:gray'>Daily change</span>"},
         delta={'reference': int(daily_totals[-2]), 'relative': True, 'position': "bottom"}))
 
-    fig_daily.update_layout(autosize=True,
-                            #  height=400,
-                            # width=400,
+    fig_daily.update_layout(autosize=True
                             )
 
     return fig_daily
@@ -141,10 +137,10 @@ def get_line_chart(df_aggregated):
                 size=12,
                 color='rgb(82, 82, 82)')
         ),
-        autosize=False,
+        autosize=True,
         margin=dict(
             autoexpand=False,
-            l=100,
+            l=20,
             r=20,
             t=20,
         ),
@@ -163,7 +159,7 @@ def get_line_chart(df_aggregated):
 
 
 def get_bar_chart(top_schools):
-    bar_title = "Schools With Most Confirmed Cases"
+    bar_title = "Schools with Most Positive Cases"
 
     fig_bar = go.Figure(go.Bar(
         x=top_schools,
@@ -196,18 +192,18 @@ def get_bar_chart(top_schools):
                 size=12,
                 color='rgb(82, 82, 82)')
         ),
-        autosize=False,
+        autosize=True,
         margin=dict(
-            autoexpand=False,
-            l=100,
-            r=20,
-            t=100,
+            autoexpand=True,
+            # l=100,
+            # r=20,
+            # t=100,
         ),
         showlegend=False,
         plot_bgcolor='white'
     )
 
-    fig_bar.update_layout(margin={"r": 0, "t": 100, "l": 150, "b": 50},
+    fig_bar.update_layout(margin=dict(autoexpand=True),
                           annotations=[dict(xref='paper', yref='paper', x=0.43, y=1,
                                             xanchor='center', yanchor='bottom',
                                             text=bar_title,
@@ -230,18 +226,22 @@ def get_map(df_geo):
                                 center={"lat": 34.221749,
                                         "lon": -84.135526},
                                 zoom=10,
-                                height=700,
-                                width=700,
+                                # height=00,
+                                # width=700,
                                 hover_name='school',
                                 hover_data=['school', 'total', 'F2F Students & Staff'])
     fig_map.update_layout(mapbox_style="carto-positron")
-    fig_map.update_layout(margin={"r": 0, "t": 100, "l": 0, "b": 0},
+    fig_map.update_layout(margin={},
+                          autosize=True,
                           title=dict(
-                              text='Reported COVID-19 cases in Forsyth County Schools',
+                              text='Reported Positive Cases',
                               font=dict(
                                   color='black',
                                   size=26),
                               xanchor="center",
                               x=0.5))
+
+    # fig_map['layout']['sliders'][0]['y'] = 1.2
+    # fig_map['layout']['updatemenus'][0]['y'] = 1.2
 
     return fig_map

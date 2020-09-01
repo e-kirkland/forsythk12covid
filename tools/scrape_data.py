@@ -45,14 +45,23 @@ def get_weekly_info(url):
     return info
 
 
+def remove_html_tags(text):
+    #removing HTML Tag using regex
+    import re
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
 def info_dataframe(info):
     # Removing html characters
-    replace_list = ['<p>', '</p>', '<p class=\\"\\', '>']
-    for t in replace_list:
-        info = info.replace(t, '')
+    #replace_list = ['<p>', '</p>', '<p class=\\"\\', '>']
+    #replace_list = ['medium-insert-active', '<br>','<p>','</p>', '<p class=\\"\\', '>']
+    #for t in replace_list:
+    #    info = info.replace(t, '')
+    info = remove_html_tags(info)
 
     # Removing extra ""
-    info = info.replace('""', '"')
+    # This is not required from week 4
+    #info = info.replace('""', '"')
 
     # Replacing data for Alliance Academy
     info = info.replace('Innovation', 'Innovation HS')
@@ -118,7 +127,18 @@ def get_weekly_dataframes(master_url):
 
 
 def merge_dataframes(df_list):
-    df_final = reduce(lambda x, y: pd.merge(x, y, on=['school', 'type']), df_list)
+    #Removing additional F2F Columns prior to triggering merge. There may be a better way to do this 
+    f2f_flag = 0
+    for df_list_value in df_list:
+        if 'F2F Students & Staff' in df_list_value.columns:
+            if f2f_flag == 0:
+                f2f_flag =1
+            else:
+                df_list_value=df_list_value.drop(
+                    columns=['F2F Students & Staff'], inplace=True)
+
+    df_final = reduce(lambda x, y: pd.merge(
+        x, y, on=['school', 'type']), df_list)
 
     return df_final
 

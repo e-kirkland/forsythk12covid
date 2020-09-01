@@ -60,7 +60,8 @@ def info_dataframe(info):
     info = remove_html_tags(info)
 
     # Removing extra ""
-    info = info.replace('""', '"')
+    # This is not required from week 4
+    #info = info.replace('""', '"')
 
     # Replacing data for Alliance Academy
     info = info.replace('Innovation', 'Innovation HS')

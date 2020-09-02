@@ -75,9 +75,10 @@ def info_dataframe(info):
 
 
 def clean_df(df):
-    # Removing , fron numbers and converting to numeric values
+    # Removing , fron numbers, replacing o with 0 and converting to numeric values
     columns = df.columns
     for col in columns[1:]:
+        df[col] = df[col].str.replace('o', '0')
         df[col] = pd.to_numeric(df[col].str.replace(',', ''), errors='coerce')
 
     # Handling change in column naming for week 3

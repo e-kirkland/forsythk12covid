@@ -1,6 +1,7 @@
 # Standard libraries
 import json
 from functools import reduce
+import re
 
 # Third-party libraries
 from bs4 import BeautifulSoup
@@ -46,22 +47,17 @@ def get_weekly_info(url):
 
 
 def remove_html_tags(text):
-    #removing HTML Tag using regex
-    import re
-    clean = re.compile('<.*?>')
-    return re.sub(clean, '', text)
+
+    # Removing HTML Tag using regex
+    pattern = re.compile('<.*?>')
+    clean = re.sub(pattern, '', text)
+
+    return clean
 
 def info_dataframe(info):
-    # Removing html characters
-    #replace_list = ['<p>', '</p>', '<p class=\\"\\', '>']
-    #replace_list = ['medium-insert-active', '<br>','<p>','</p>', '<p class=\\"\\', '>']
-    #for t in replace_list:
-    #    info = info.replace(t, '')
-    info = remove_html_tags(info)
 
-    # Removing extra ""
-    # This is not required from week 4
-    #info = info.replace('""', '"')
+    # Removing html tags
+    info = remove_html_tags(info)
 
     # Replacing data for Alliance Academy
     info = info.replace('Innovation', 'Innovation HS')
@@ -125,17 +121,38 @@ def get_weekly_dataframes(master_url):
 
     return df_list
 
+def remove_duplicates(df_list):
+    # Keeping F2F column in one df only
+    counter = 0
+    for df in df_list:
+        if 'F2F Students & Staff' not in df.columns:
+            pass
+
+        else:
+            if counter == 0:
+                counter +=1
+                pass
+            else:
+                df.drop(columns=['F2F Students & Staff'], inplace=True)
+
+    return df_list
+
+def add_transportation(df):
+    # Adding row for Transporation Staff
+    if 'Transportation' in [x for x in df['school']]:
+        return df
+    else:
+        df = df.append({'school': 'Transportation',
+                        'type': 'Staff'}, ignore_index=True)
+        return df
 
 def merge_dataframes(df_list):
-    #Removing additional F2F Columns prior to triggering merge. There may be a better way to do this 
-    f2f_flag = 0
-    for df_list_value in df_list:
-        if 'F2F Students & Staff' in df_list_value.columns:
-            if f2f_flag == 0:
-                f2f_flag =1
-            else:
-                df_list_value=df_list_value.drop(
-                    columns=['F2F Students & Staff'], inplace=True)
+
+    # Adding transportation rows
+    df_list = [add_transportation(x) for x in df_list]
+
+    # Keeping F2F column in one df only
+    df_list = remove_duplicates(df_list)
 
     df_final = reduce(lambda x, y: pd.merge(
         x, y, on=['school', 'type']), df_list)
@@ -146,6 +163,8 @@ def merge_dataframes(df_list):
 def get_covid_data(url):
     df_list = get_weekly_dataframes(url)
     df_final = merge_dataframes(df_list)
+    for df in df_list:
+        print("Dataframe columns: ", df.columns)
 
     # Organizing columns for statistical analysis
     df_columns = list(df_final.columns)

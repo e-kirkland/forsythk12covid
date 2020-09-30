@@ -25,7 +25,7 @@ def get_urls(url):
     # Getting weekly number lists
     covid_links = []
     for link in soup.find_all("a"):
-        if str(link.text).lower().find('week ') != -1:
+        if str(link.text).lower().find('week ') != -1 or str(link.text).lower().find('sept') != -1:
             # replacing https with http and getting link url
             covid_links.append(str(link['href']).replace('s', '', 1))
         else:
@@ -108,10 +108,14 @@ def clean_df(df):
     return df
 
 
-def get_weekly_dataframes(master_url):
-    # Getting weekly links
-    url_links = get_urls(master_url)
+def get_weekly_dataframes(urls):
 
+    url_links = []
+    # Getting weekly links
+    for individual_url in urls:
+        url_links_from_url = get_urls(individual_url)
+        url_links.extend(url_links_from_url)
+    
     # Getting dataframe for each week
     df_list = []
     for url in url_links:
@@ -161,8 +165,8 @@ def merge_dataframes(df_list):
     return df_final
 
 
-def get_covid_data(url):
-    df_list = get_weekly_dataframes(url)
+def get_covid_data(urls):
+    df_list = get_weekly_dataframes(urls)
     df_final = merge_dataframes(df_list)
     for df in df_list:
         print("Dataframe columns: ", df.columns)
@@ -191,7 +195,8 @@ def get_covid_data(url):
     return df_final
 
 def data_download():
-    df_final = get_covid_data("https://www.forsyth.k12.ga.us/Page/52982")
+    URLs=["https://www.forsyth.k12.ga.us/Page/52982","https://www.forsyth.k12.ga.us/Page/53315"]
+    df_final = get_covid_data(URLs)
     df_final.to_csv('forsythk12_covid_data.csv')
     return df_final
 

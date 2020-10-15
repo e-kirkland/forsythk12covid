@@ -80,7 +80,9 @@ def clean_df(df):
     for col in columns[1:]:
         df[col] = df[col].str.replace('o', '0')
         df[col] = df[col].str.replace('*', '')
-        df[col] = df[col].str.replace(r"\(.*\)","")      
+        df[col] = df[col].str.replace(r"\(.*\)","")
+        #needs more work as now 
+        df[col] = df[col].str.replace(r", with [0-9]*","")      
         df[col] = pd.to_numeric(df[col].str.replace(',', ''), errors='coerce')
 
     # Handling change in column naming for week 3

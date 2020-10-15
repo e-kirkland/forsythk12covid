@@ -25,7 +25,7 @@ def get_urls(url):
     # Getting weekly number lists
     covid_links = []
     for link in soup.find_all("a"):
-        if str(link.text).lower().find('week ') != -1 or str(link.text).lower().find('sept') != -1:
+        if str(link.text).lower().find('week ') != -1 or str(link.text).lower().find('sept') != -1 or str(link.text).lower().find('oct') != -1:
             # replacing https with http and getting link url
             covid_links.append(str(link['href']).replace('s', '', 1))
         else:
@@ -79,6 +79,10 @@ def clean_df(df):
     columns = df.columns
     for col in columns[1:]:
         df[col] = df[col].str.replace('o', '0')
+        df[col] = df[col].str.replace('*', '')
+        df[col] = df[col].str.replace(r"\(.*\)","")
+        #needs more work as now 
+        df[col] = df[col].str.replace(r", with [0-9]*","")      
         df[col] = pd.to_numeric(df[col].str.replace(',', ''), errors='coerce')
 
     # Handling change in column naming for week 3

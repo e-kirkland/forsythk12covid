@@ -74,7 +74,10 @@ app.layout = html.Div([
                         className = "nine columns"),
                 ]),
             html.Div([
-                dcc.Markdown('''Source Data: [Forsyth Co. Schools - Restart](https://www.forsyth.k12.ga.us/Page/52982)  
+                dcc.Markdown('''Source Data:
+                Forsyth Co. Schools 
+                                [Restart](https://www.forsyth.k12.ga.us/Page/52982)
+                                [Open for Learning Week 7 onwards](https://www.forsyth.k12.ga.us/Page/53315)  
                                 Dashboard Source Code: [GitHub](https://github.com/e-kirkland/forsythk12covid)/[Dataset](https://github.com/e-kirkland/forsythk12covid/blob/master/data/forsythk12_covid_data.csv)
                                 ''',
                         className = "three columns"),
